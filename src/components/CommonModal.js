@@ -1,28 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components'
 import { modalOff } from '../context/actions/modal';
+import LoginForm from './LoginForm';
+import CartList from './CartList';
+import Confirm from './Confirm';
 
 export default function CommonModal() {
 
     const { 
-        isVisible, Component, interaction, useDimmedClick, useCloseBtn 
+        isVisible, component, arrowDimmedClickToClose 
     } = useSelector(({ modal }) => modal);
 
     const dispatch = useDispatch();
 
+    const [ visibleDelay, setVisibleDelay ] = useState(false);
+    useEffect(() => {
+        if (isVisible) setTimeout(()=> setVisibleDelay(true), 180);
+        else setVisibleDelay(false);
+    }, [isVisible]);
+
+    const interactionOnType = {
+        login: 'center',
+        cart: 'right',
+        confirm: 'center',
+    };
+
     return (
-        <ModalContainer $active={isVisible} $type={interaction ?? ''}>
+        <ModalContainer $active={isVisible} $delay={visibleDelay} $type={interactionOnType[component] ?? false}>
             <ModalBox>
-                { 
-                useCloseBtn && 
-                    <button type='button' onClick={() => dispatch(modalOff())}>
-                        <span className='material-icons'>close</span>
-                    </button>
+                {
+                (component === 'login' && <LoginForm />) ||
+                (component === 'cart' && <CartList />) ||
+                (component === 'confirm' && <Confirm />)
                 }
-                { Component && <Component /> }
             </ModalBox>
-            <DimmedEl onClick={() => useDimmedClick && dispatch(modalOff())}></DimmedEl>
+            <DimmedEl onClick={() => arrowDimmedClickToClose && dispatch(modalOff())}></DimmedEl>
         </ModalContainer>
     )
 }
@@ -59,13 +72,26 @@ const ModalContainer = styled.div`
     & > ${ ModalBox } {
         position: relative;
         z-index: 9;
+        width: 100%;
+        height: 100%;
         display: inline-flex;
         flex-flow: row nowrap;
 
         ${({ $type }) => $type === 'center' && css`
             justify-content: center;
             align-items: center;
-            transform: translateY(30%);
+            
+            & > form {
+                max-width: 480px;
+                width: 100%;
+                height: auto;
+                max-height: min-content;
+                pointer-events: all;
+                transform: translateY(10%);
+                transition: transform 0.3s ease-out;
+                transition-delay: 0.18s;
+            }
+            & > form { ${({ $delay }) => $delay && css`transform: translateY(0%);`} }
         `}
 
         ${({ $type }) => $type === 'right' && css`
@@ -75,9 +101,10 @@ const ModalContainer = styled.div`
             transform: translateX(100%);
         `}
 
-        opacity: ${({ $active }) => $active ? 1 : 0};
-        transform: translateX(${({ $type }) => $type === 'right' ? '0.5s' : '0.3s'}) translateY(0%);
-        transition: transfrom 0.3s, opacity 0.3s;
+        visibility: ${({ $active }) => $active ? 'visible' : 'hidden'};
+        opacity: ${({ $delay }) => $delay ? 1 : 0};
+        transition: opacity 0.3s;
         transition-delay: 0.2s !important;
+        pointer-events: none;
     }
 `;

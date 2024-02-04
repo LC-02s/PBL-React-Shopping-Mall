@@ -4,18 +4,14 @@ const modal = createSlice({
     name: 'modal',
     initialState: { 
         isVisible: false,
-        Component: null,
-        interaction: '',
-        useDimmedClick: true,
-        useCloseBtn: false,
+        component: '',
+        arrowDimmedClickToClose: true,
     },
     reducers: {
-        modalOn: (state, action) => {
+        modalOn: (state, { payload }) => {
             state.isVisible = true;
-            state.Component = action.Component;
-            state.interaction = action.interaction;
-            state.useDimmedClick = action?.useDimmedClick ?? true;
-            state.useCloseBtn = action?.useCloseBtn ?? false;
+            state.component = payload.component;
+            state.arrowDimmedClickToClose = payload.arrowDimmedClickToClose ?? true;
         },
         modalOff: (state, _action) => {
             state.isVisible = false;

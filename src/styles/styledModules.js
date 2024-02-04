@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const CommonWrapper = styled.div`
     position: relative;
@@ -38,5 +38,37 @@ export const Contents = styled.section`
     }
     @media (max-width: 768px) {
         padding: 80px 20px 100px;
+    }
+`;
+
+export const CommonBtnMD = styled.button`
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    padding: 4px 12px;
+    ${({ $iconBtn }) => $iconBtn && css`
+        padding: 4px 12px 4px 8px;
+    `}
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--grayscale-800);
+    border-radius: 4px;
+    background-color: var(--grayscale-100);
+    transition: background 0.2s;
+
+    ${({ $primary }) => $primary && css`
+        color: var(--brand-white);
+        background-color: #414143;
+        &:hover {background-color: #FCB041 !important;}
+    `}
+
+    & + & {margin-left: 8px;}
+    &:hover {background-color: var(--grayscale-200);}
+    & > img {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
     }
 `;

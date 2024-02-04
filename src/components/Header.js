@@ -4,15 +4,19 @@ import cartPlusIcon from '../assets/cart-plus.svg'
 import cartCheckIcon from '../assets/cart-check.svg'
 import registerIcon from '../assets/register.svg'
 import loginIcon from '../assets/login.svg'
-import logoutIcon from '../assets/logout.svg'
+// import logoutIcon from '../assets/logout.svg'
 import styled, { css } from 'styled-components'
-import { CommonWrapper } from '../styles/styledModules'
-import { Link } from 'react-router-dom'
+import { CommonWrapper, CommonBtnMD } from '../styles/styledModules'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { modalOn } from '../context/actions/modal';
 
 export default function Header() {
 
     const headerRef = useRef();
     const [ isScroll, setIsScroll ] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const headerScroll = () => {
@@ -23,9 +27,7 @@ export default function Header() {
     }, []);
 
     return (
-        <HeaderContainer ref={headerRef} $isScroll={isScroll} style={{
-            
-        }}>
+        <HeaderContainer ref={headerRef} $isScroll={isScroll}>
             <HeaderWrapper>
                 <HeaderLogo>
                     <Link to='/'><img src={headerLogo} alt='Shop PBL Logo' /></Link>
@@ -35,18 +37,18 @@ export default function Header() {
                         <CartLengthBadge>0</CartLengthBadge>
                         <img src={true ? cartCheckIcon : cartPlusIcon} alt={true ? 'checked cart icon' : 'empty cart icon'} />
                     </CartBtn>
-                    <HeaderBtn>
+                    <CommonBtnMD onClick={() => navigate('/register')} $iconBtn={true}>
                         <img src={registerIcon} alt='register icon' />
                         <span>회원가입</span>
-                    </HeaderBtn>
-                    <HeaderBtn>
+                    </CommonBtnMD>
+                    {/* <CommonBtnMD $iconBtn={true}>
                         <img src={logoutIcon} alt='logout icon' />
                         <span>로그아웃</span>
-                    </HeaderBtn>
-                    <HeaderBtn $primary={true}>
+                    </CommonBtnMD> */}
+                    <CommonBtnMD onClick={() => dispatch(modalOn({ component: 'login', arrowDimmedClickToClose: false }))} $primary={true} $iconBtn={true}>
                         <img src={loginIcon} alt='login icon' />
                         <span>로그인</span>
-                    </HeaderBtn>
+                    </CommonBtnMD>
                 </HeaderBtnWrap>
             </HeaderWrapper>
         </HeaderContainer>
@@ -59,6 +61,7 @@ const HeaderContainer = styled.header`
     top: 0px;
     left: 0px;
     right: 0px;
+    min-width: 500px;
     border-bottom: 1px solid var(--grayscale-200);
     background-color: var(--brand-white);
     ${({ $isScroll }) =>  $isScroll ? 
@@ -141,40 +144,5 @@ const CartBtn = styled.button`
         width: 28px;
         height: 28px;
         color: var(--grayscale-700);
-    }
-`;
-
-const HeaderBtn = styled.button`
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-    height: auto;
-    padding: 4px 12px 4px 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--grayscale-800);
-    border-radius: 4px;
-    background-color: var(--grayscale-100);
-    transition: background 0.2s;
-
-    ${({ $primary }) => $primary && css`
-        color: var(--brand-white);
-        background-color: #414143;
-        &:hover {background-color: #FCB041 !important;}
-    `}
-
-    & + & {
-        margin-left: 8px;
-    }
-
-    &:hover {
-        background-color: var(--grayscale-200);
-    }
-
-    & > img {
-        width: 20px;
-        height: 20px;
-        margin-right: 6px;
     }
 `;

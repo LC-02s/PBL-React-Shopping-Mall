@@ -1,16 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled, { css } from 'styled-components'
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
-import { set, ref } from 'firebase/database'
-import app, { db } from '../apis/firebase'
 import spinnerPulse from '../assets/spinner-pulse.svg'
 import infoIcon from '../assets/info.svg'
-import md5 from 'md5';
+import { signUpEmail } from '../auth'
 
 export default function RegisterForm() {
-
-    const auth = getAuth(app);
 
     const { register, watch, formState: { errors }, setError, handleSubmit } = useForm({ mode: 'onSubmit' });
     const pwInputEl = watch('password');
@@ -20,8 +15,7 @@ export default function RegisterForm() {
     // (function(pw, cpw) {
     //     if (pw && cpw && pw === cpw) clearErrors('confirmPassword');
     // })(pwInputEl, confirmInputEl);
-    
-    const [ errorFromSubmit, setErrorFromSubmit ] = useState('');
+
     const [ loadingSubmit, setLoadingSubmit ] = useState(false);
 
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
@@ -40,29 +34,11 @@ export default function RegisterForm() {
     }    
 
     const handleSubmitEvent = async ({ email, name, password }, e) => {
-        console.log(email || 'Form Email: false');
-        console.log(name || 'Form Name: false');
-        console.log(password || 'Form Password: false');
-        // if (pwInputEl !== confirmInputEl) return setError();
-        if (!email) { setError({ type: 'required', message: '이메일을 입력해주세요' }); }
-        try {
-            setLoadingSubmit(true);
-            const createdUser = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(createdUser);
-            await updateProfile(auth.currentUser, {
-                displayName: name,
-                photoURL: `https://gravatar.com/avatar/${md5(email)}?d=identicon`,
-            });
-            set(ref(db, `users/${createdUser.user.uid}`), {
-                name: createdUser.user.displayName,
-                avatarImage: createdUser.user.photoURL,
-            });
-        } catch(err) {
-            console.warn(err);
-            setErrorFromSubmit(err);
-        } finally {
-            setLoadingSubmit(false);
-        }
+        // 유효성 검사 진행 후 실행됨
+        setLoadingSubmit(true);
+        const result = await signUpEmail(email, name, password);
+        if (!result) setError('email', { type: 'alreadyUsedEmail', message: '이미 사용 중인 이메일 입니다' });
+        setLoadingSubmit(false);
     }
 
     return (
@@ -70,7 +46,7 @@ export default function RegisterForm() {
             <FormEl onSubmit={handleSubmit(handleSubmitEvent)}>
                 <FormTitle>Register</FormTitle>
                 <FormFieldset $error={errors.email ? true : false}>
-                    <label>이메일</label>
+                    <label htmlFor='email'>이메일</label>
                     <input 
                         type='email' 
                         name='email' 
@@ -87,7 +63,7 @@ export default function RegisterForm() {
                     }
                 </FormFieldset>
                 <FormFieldset $error={errors.name ? true : false}>
-                    <label>이름</label>
+                    <label htmlFor='name'>이름</label>
                     <input 
                         type='text' 
                         name='text' 
@@ -109,7 +85,7 @@ export default function RegisterForm() {
                     }
                 </FormFieldset>
                 <FormFieldset $error={errors.password ? true : false}>
-                    <label>비밀번호</label>
+                    <label htmlFor='password'>비밀번호</label>
                     <input 
                         type='password' 
                         name='password'
@@ -143,7 +119,7 @@ export default function RegisterForm() {
                     </FormConfirmList>
                 </FormFieldset>
                 <FormFieldset $error={(errors.confirmPassword ? true : false) || (pwInputEl && confirmInputEl && pwInputEl !== confirmInputEl)}>
-                    <label>비밀번호 확인</label>
+                    <label htmlFor='confirmPassword'>비밀번호 확인</label>
                     <input 
                         type='password' 
                         name='confirmPassword' 
@@ -260,13 +236,16 @@ export const FormBtn = styled.button`
     font-size: 18px;
     font-weight: 500;
     color: var(--brand-white);
+    outline-color: #414143;
     border-radius: 6px;
     background-color: #414143;
     transition: background 0.2s;
 
-    &:hover {background-color: #FCB041;}
+    &:hover,
+    &:focus {background-color: #FCB041;}
     &:disabled,
-    &:disabled:hover {
+    &:disabled:hover,
+    &:disabled:focus {
         background-color: #A8A8AE;
     }
     & > img {
