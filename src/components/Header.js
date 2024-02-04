@@ -32,7 +32,7 @@ export default function Header() {
                 </HeaderLogo>
                 <HeaderBtnWrap>
                     <CartBtn>
-                        <CartLengthBadge>1</CartLengthBadge>
+                        <CartLengthBadge>0</CartLengthBadge>
                         <img src={true ? cartCheckIcon : cartPlusIcon} alt={true ? 'checked cart icon' : 'empty cart icon'} />
                     </CartBtn>
                     <HeaderBtn>
@@ -173,8 +173,8 @@ const HeaderBtn = styled.button`
     }
 
     & > img {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         margin-right: 6px;
     }
 `;

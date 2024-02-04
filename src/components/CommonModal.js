@@ -31,7 +31,7 @@ export default function CommonModal() {
 const ModalBox = styled.div``;
 const DimmedEl = styled.div``;
 
-const ModalContainer = styled.section`
+const ModalContainer = styled.div`
     position: fixed;
     z-index: 99999;
     top: 0px;

@@ -1,29 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Header from '../components/Header';
-import { Contents } from '../styles/styledModules';
-import ProductCategory from '../components/ProductCategory';
-import ProductList from '../components/ProductList';
-import CommonModal from '../components/CommonModal';
-import Footer from '../components/Footer';
+import ProductCategory from '../components/ProductCategory'
+import ProductList from '../components/ProductList'
 
 export default function ProductListPage() {
     return (
         <React.Fragment>
-            <Header />
-            <Contents>
-                <Title>Product</Title>
-                <ProductCategory />
-                <ProductList />
-                <CommonModal />
-            </Contents>
-            <Footer />
+            <MainTitle>Product</MainTitle>
+            <ProductCategory />
+            <ProductList />
         </React.Fragment>
     )
 }
 
-const Title = styled.h2`
+const MainTitle = styled.h2`
     display: block;
     width: 100%;
     height: auto;
