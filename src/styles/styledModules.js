@@ -28,15 +28,15 @@ export const Contents = styled.section`
     height: auto;
     min-height: calc(100vh - 160px);
     margin: 0px auto;
-    padding: 120px 40px 200px;
+    padding: 120px 40px 160px;
 
     @media (max-width: 1200px) {
-        padding: 100px 30px 180px;
+        padding: 100px 30px 140px;
     }
     @media (max-width: 1024px) {
-        padding: 100px 24px 160px;
+        padding: 100px 24px 120px;
     }
     @media (max-width: 768px) {
-        padding: 80px 20px 140px;
+        padding: 80px 20px 100px;
     }
 `;

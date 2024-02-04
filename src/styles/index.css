@@ -24,10 +24,11 @@ body {
   min-width: 500px;
   height: auto;
   min-height: 100vh;
-  background-color: var(--grayscale-100);
+  background-color: var(--brand-white);
 }
 body > article {
   display: block;
   width: 100%;
   height: auto;
+  background-color: var(--grayscale-100);
 }
