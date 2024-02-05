@@ -149,10 +149,7 @@ const CartBtn = styled.button`
     border-radius: 50%;
     transition: background 0.2s;
     
-    &:hover {
-        background-color: var(--grayscale-200);
-    }
-
+    &:hover {background-color: var(--grayscale-100);}
     & > img {
         width: 28px;
         height: 28px;

@@ -95,7 +95,7 @@ const ModalContainer = styled.div`
                 height: auto;
                 max-height: min-content;
                 pointer-events: all;
-                transform: translateY(10%);
+                transform: translateY(-10%);
                 transition: transform 0.3s ease-out;
                 transition-delay: 0.18s;
             }

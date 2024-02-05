@@ -19,7 +19,7 @@ const MainTitle = styled.h2`
     width: 100%;
     height: auto;
     margin: 0px 0px 12px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--grayscale-900);
 `;
