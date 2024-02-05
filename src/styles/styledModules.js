@@ -72,3 +72,17 @@ export const CommonBtnMD = styled.button`
         margin-right: 6px;
     }
 `;
+
+export const SkeletonBackground = styled.div`
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    background: linear-gradient(100deg, rgba(169,181,188,1) 1%, rgba(216,223,227,1) 36%, rgba(216,223,227,1) 42%, rgba(169,181,188,1) 99%);
+    background-size:360% 100%;
+    background-position: left;
+    animation-fill-mode: both;
+    animation: loader 0.8s infinite alternate;
+
+    @keyframes loader { 0% {background-position: right} }
+`;

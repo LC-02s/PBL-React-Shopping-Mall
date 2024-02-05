@@ -6,8 +6,6 @@ const getProduct = axios.create({
 
 export const getAllProducts = async (config = {}, category = false) => {
     // config: { sort: String< 'desc' || 'asc' >, limit: Number }
-    
-    let jsonData = null;
 
     const filteredParams = Object
         .entries(config) // eslint-disable-next-line no-sequences
@@ -20,32 +18,26 @@ export const getAllProducts = async (config = {}, category = false) => {
         }, ([])) };
 
     try {
-        const result = await getProduct.get('', { params: filteredParams });
-        const json = await result.json();
-        jsonData = category ? categorization(json, category) : json;
+        let { data } = await getProduct.get('', { params: filteredParams });
+        data = category ? categorization(data, category) : data;
+
+        return ({ status: true, data });
     } 
     catch(err) { return ({ status: false, errCode: err }); }
-    finally { return ({ status: true, data: jsonData }); }
 }
 
 export const getProductDataById = async (productID) => {
-    let jsonData = null;
     try {
-        const result = await getProduct.get(`/${productID}`);
-        const json = await result.json();
-        jsonData = json;
+        const { data } = await getProduct.get(`/${productID}`);
+        return ({ status: true, data });
     } 
     catch(err) { return ({ status: false, errCode: err }); }
-    finally { return ({ status: true, data: jsonData }); }
 }
 
 export const getAllCategories = async () => {
-    let jsonData = null;
     try {
-        const result = await getProduct.get('/categories');
-        const json = await result.json();
-        jsonData = json;
+        const { data } = await getProduct.get('/categories');
+        return ({ status: true, data });
     } 
     catch(err) { return ({ status: false, errCode: err }); }
-    finally { return ({ status: true, data: jsonData }); }
 }

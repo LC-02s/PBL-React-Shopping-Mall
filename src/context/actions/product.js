@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    product: {
+        categoryToListView: false,
+    },
     cart: [],
 }
 
@@ -8,6 +11,9 @@ const product = createSlice({
     name: 'product',
     initialState,
     reducers: {
+        changeCategory: ({ product }, { payload }) => {
+            product.categoryToListView = payload?.categoryToListView ?? false;
+        },
         addCartItem: ({ cart }, { payload }) => {
             
         },
@@ -22,4 +28,9 @@ const product = createSlice({
 
 export default product;
 
-export const { addCartItem, deleteCartItem, clearCartItem } = product.actions;
+export const { 
+    changeCategory,
+    addCartItem, 
+    deleteCartItem, 
+    clearCartItem 
+} = product.actions;
