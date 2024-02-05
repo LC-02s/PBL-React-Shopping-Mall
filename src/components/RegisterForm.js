@@ -5,33 +5,33 @@ import spinnerPulse from '../assets/spinner-pulse.svg'
 import infoIcon from '../assets/info.svg'
 import { signUpEmail } from '../auth'
 
-export default function RegisterForm() {
 
+export const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+const nameRegex = /[^ㄱ-ㅎㅏ-ㅣ\uAC00-\uD7A3a-z0-9]/i;
+const pwRegex = { 
+    lowerCase: { type: false, regex: /[a-z]+/, message: '비밀번호는 최소 1글자 이상의 소문자를 포함하여야 합니다' }, 
+    upperCase: { type: false, regex: /[A-Z]+/, message: '비밀번호는 최소 1글자 이상의 대문자를 포함하여야 합니다' }, 
+    number: { type: false, regex: /\d{2,}/, message: '비밀번호는 최소 2글자 이상의 연속된 숫자를 포함하여야 합니다' }, 
+    symbol: { type: false, regex: /[!@#$%^&*]+/, message: '비밀번호는 최소 1글자 이상의 특수문자를 포함하여야 합니다' }, 
+    space: { type: true, regex: /\s+/, message: '비밀번호는 공백문자를 포함할 수 없습니다' }, 
+};
+const passwordTest = (value) => {
+    for (const type in pwRegex) {
+        if (pwRegex[type].regex.test(value) === pwRegex[type].type) return pwRegex[type];
+    }
+}
+
+export default function RegisterForm() {
+    
     const { register, watch, formState: { errors }, setError, handleSubmit } = useForm({ mode: 'onSubmit' });
     const pwInputEl = watch('password');
     const confirmInputEl = watch('confirmPassword');
-
     // error : too-many re-render
     // (function(pw, cpw) {
     //     if (pw && cpw && pw === cpw) clearErrors('confirmPassword');
     // })(pwInputEl, confirmInputEl);
 
     const [ loadingSubmit, setLoadingSubmit ] = useState(false);
-
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-    const nameRegex = /[^ㄱ-ㅎㅏ-ㅣ\uAC00-\uD7A3a-z0-9]/i;
-    const pwRegex = { 
-        lowerCase: { type: false, regex: /[a-z]+/, message: '비밀번호는 최소 1글자 이상의 소문자를 포함하여야 합니다' }, 
-        upperCase: { type: false, regex: /[A-Z]+/, message: '비밀번호는 최소 1글자 이상의 대문자를 포함하여야 합니다' }, 
-        number: { type: false, regex: /\d{2,}/, message: '비밀번호는 최소 2글자 이상의 연속된 숫자를 포함하여야 합니다' }, 
-        symbol: { type: false, regex: /[!@#$%^&*]+/, message: '비밀번호는 최소 1글자 이상의 특수문자를 포함하여야 합니다' }, 
-        space: { type: true, regex: /\s+/, message: '비밀번호는 공백문자를 포함할 수 없습니다' }, 
-    };
-    const passwordTest = (value) => {
-        for (const type in pwRegex) {
-            if (pwRegex[type].regex.test(value) === pwRegex[type].type) return pwRegex[type];
-        }
-    }    
 
     const handleSubmitEvent = async ({ email, name, password }, e) => {
         // 유효성 검사 진행 후 실행됨
@@ -108,7 +108,7 @@ export default function RegisterForm() {
                         <span>비밀번호를 생성할 때는 다음의 조건을 충족해야 합니다</span>
                     </FormInfoTxt>
                     <FormConfirmList>
-                        <FormConfirmItem $confirmed={pwInputEl && pwRegex.lowerCase.regex.test(pwInputEl)}>
+                        <FormConfirmItem $confirmed={pwInputEl && pwInputEl.length !== 0 && pwRegex.lowerCase.regex.test(pwInputEl)}>
                             최소 1글자의 소문자 포함 (a...z)</FormConfirmItem>
                         <FormConfirmItem $confirmed={pwInputEl && pwRegex.upperCase.regex.test(pwInputEl)}>
                             최소 1글자의 대문자 포함 (A...Z)</FormConfirmItem>
@@ -297,6 +297,10 @@ const FormConfirmItem = styled.li`
     font-weight: 400;
     color: var(--grayscale-600);
     line-height: 20px;
+    ${({ $confirmed }) => $confirmed && css`
+        color: var(--grayscale-500);
+        text-decoration: line-through;
+    `};
 
     & + & {margin: 4px 0px 0px;}
     &::before {

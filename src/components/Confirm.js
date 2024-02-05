@@ -5,13 +5,15 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux';
 import { modalOff } from '../context/actions/modal';
 
-export default function Confirm({ confirmType, title, content, btnImg, actionType }) {
+export default function Confirm({ confirmType, title, content }) {
 
     const dispatch = useDispatch();
 
+    const handleSubmit = () => {}
+
     return (
-        <FormEl>
-            <ConfirmContainer $type={confirmType ? true : false}>
+        <FormEl onSubmit={handleSubmit}>
+            <ConfirmContainer $type={confirmType || false}>
                 <ConfirmTitle>{ title || 'confirm title' }</ConfirmTitle>
                 <ConfirmContentTxt>
                     { content || 'this is confirm content area' }

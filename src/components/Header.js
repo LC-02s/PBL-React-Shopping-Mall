@@ -4,15 +4,17 @@ import cartPlusIcon from '../assets/cart-plus.svg'
 import cartCheckIcon from '../assets/cart-check.svg'
 import registerIcon from '../assets/register.svg'
 import loginIcon from '../assets/login.svg'
-// import logoutIcon from '../assets/logout.svg'
+import logoutIcon from '../assets/logout.svg'
 import styled, { css } from 'styled-components'
 import { CommonWrapper, CommonBtnMD } from '../styles/styledModules'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { modalOn } from '../context/actions/modal';
 
 export default function Header() {
 
+    const { isValid } = useSelector(({ user }) => user);
+    const { cart } = useSelector(({ product }) => product);
     const headerRef = useRef();
     const [ isScroll, setIsScroll ] = useState(false);
     const navigate = useNavigate();
@@ -34,21 +36,32 @@ export default function Header() {
                 </HeaderLogo>
                 <HeaderBtnWrap>
                     <CartBtn>
-                        <CartLengthBadge>0</CartLengthBadge>
+                        {
+                        cart && 
+                            <CartLengthBadge>{ cart.length }</CartLengthBadge>
+                        }
                         <img src={true ? cartCheckIcon : cartPlusIcon} alt={true ? 'checked cart icon' : 'empty cart icon'} />
                     </CartBtn>
-                    <CommonBtnMD onClick={() => navigate('/register')} $iconBtn={true}>
-                        <img src={registerIcon} alt='register icon' />
-                        <span>회원가입</span>
-                    </CommonBtnMD>
-                    {/* <CommonBtnMD $iconBtn={true}>
-                        <img src={logoutIcon} alt='logout icon' />
-                        <span>로그아웃</span>
-                    </CommonBtnMD> */}
-                    <CommonBtnMD onClick={() => dispatch(modalOn({ component: 'login', arrowDimmedClickToClose: false }))} $primary={true} $iconBtn={true}>
-                        <img src={loginIcon} alt='login icon' />
-                        <span>로그인</span>
-                    </CommonBtnMD>
+                    {
+                    isValid ? 
+                        <React.Fragment>
+                            {/* profile */}
+                            <CommonBtnMD $iconBtn={true}>
+                                <img src={logoutIcon} alt='logout icon' />
+                                <span>로그아웃</span>
+                            </CommonBtnMD>
+                        </React.Fragment> : 
+                        <React.Fragment>
+                            <CommonBtnMD onClick={() => navigate('/register')} $iconBtn={true}>
+                                <img src={registerIcon} alt='register icon' />
+                                <span>회원가입</span>
+                            </CommonBtnMD>
+                            <CommonBtnMD onClick={() => dispatch(modalOn({ component: 'login', arrowDimmedClickToClose: false }))} $primary={true} $iconBtn={true}>
+                                <img src={loginIcon} alt='login icon' />
+                                <span>로그인</span>
+                            </CommonBtnMD>
+                        </React.Fragment>
+                    }
                 </HeaderBtnWrap>
             </HeaderWrapper>
         </HeaderContainer>

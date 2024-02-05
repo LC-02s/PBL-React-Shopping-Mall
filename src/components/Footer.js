@@ -16,7 +16,27 @@ export default function Footer() {
 }
 
 const FooterContainer = styled.footer`
+    position: relative;
     background-color: var(--grayscale-600);
+    overflow: hidden;
+    padding: 120px 0px 0px;
+
+    &::before{ 
+        content:'';
+        position: absolute;
+        z-index: 3;
+        pointer-events: none;
+        background-repeat: no-repeat;
+        bottom: -0.1vw;
+        left: -0.1vw;
+        right: -0.1vw;
+        top: -0.1vw; 
+        background-size: 100% 82px;
+        background-position: 50% 0%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 381 77.25" preserveAspectRatio="none"><g fill="%23eef1f3"><path d="M381 8.47L0 42.33V0h381z"/><path d="M381 33.87L0 59.27V0h381z" opacity=".33"/><path d="M381 59.27L0 77.25V0h381z" opacity=".33"/></g></svg>'); 
+
+        @media (min-width:2100px) {background-size: 100% calc(2vw + 82px);}
+    }
+
 `;
 
 const FooterWrapper = styled(CommonWrapper)`

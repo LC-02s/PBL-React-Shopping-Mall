@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components'
 import { modalOff } from '../context/actions/modal';
@@ -8,17 +8,25 @@ import Confirm from './Confirm';
 
 export default function CommonModal() {
 
-    const { 
-        isVisible, component, arrowDimmedClickToClose 
-    } = useSelector(({ modal }) => modal);
+    const { isVisible, component, arrowDimmedClickToClose } = useSelector(({ modal }) => modal);
 
     const dispatch = useDispatch();
 
     const [ visibleDelay, setVisibleDelay ] = useState(false);
+    const delayTimer = useRef();
     useEffect(() => {
-        if (isVisible) setTimeout(()=> setVisibleDelay(true), 180);
-        else setVisibleDelay(false);
-    }, [isVisible]);
+        const disabledScroll = (e) => e.preventDefault();
+        if (isVisible) {
+            clearTimeout(delayTimer.current);
+            delayTimer.current = setTimeout(()=> setVisibleDelay(true), 180);
+            window.addEventListener('wheel', disabledScroll, { passive: false });
+        }
+        return () => {
+            setVisibleDelay(false);
+            window.removeEventListener('wheel', disabledScroll, { passive: false });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ isVisible ]);
 
     const interactionOnType = {
         login: 'center',
@@ -30,7 +38,7 @@ export default function CommonModal() {
         <ModalContainer $active={isVisible} $delay={visibleDelay} $type={interactionOnType[component] ?? false}>
             <ModalBox>
                 {
-                (component === 'login' && <LoginForm />) ||
+                (component === 'login' && <LoginForm useToModal={true} />) ||
                 (component === 'cart' && <CartList />) ||
                 (component === 'confirm' && <Confirm />)
                 }

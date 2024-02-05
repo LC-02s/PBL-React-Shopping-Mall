@@ -28,16 +28,16 @@ export const Contents = styled.section`
     height: auto;
     min-height: calc(100vh - 160px);
     margin: 0px auto;
-    padding: 120px 40px 160px;
+    padding: 120px 40px 100px;
 
     @media (max-width: 1200px) {
-        padding: 100px 30px 140px;
+        padding: 100px 30px 80px;
     }
     @media (max-width: 1024px) {
-        padding: 100px 24px 120px;
+        padding: 100px 24px 60px;
     }
     @media (max-width: 768px) {
-        padding: 80px 20px 100px;
+        padding: 80px 20px 40px;
     }
 `;
 
