@@ -5,6 +5,7 @@ import { modalOff } from '../context/actions/modal';
 import LoginForm from './LoginForm';
 import CartList from './CartList';
 import Confirm from './Confirm';
+import CartSummary from './CartSummary';
 
 export default function CommonModal() {
 
@@ -15,17 +16,18 @@ export default function CommonModal() {
     const [ visibleDelay, setVisibleDelay ] = useState(false);
     const delayTimer = useRef();
     useEffect(() => {
-        const disabledScroll = (e) => e.preventDefault();
+        // const disabledScroll = (e) => e.preventDefault();
         if (isVisible) {
             clearTimeout(delayTimer.current);
             delayTimer.current = setTimeout(()=> setVisibleDelay(true), 180);
-            window.addEventListener('wheel', disabledScroll, { passive: false });
+            document.body.classList.add('stopScroll');
+            // window.addEventListener('wheel', disabledScroll, { passive: false });
         }
         return () => {
+            document.body.classList.remove('stopScroll');
             setVisibleDelay(false);
-            window.removeEventListener('wheel', disabledScroll, { passive: false });
+            // window.removeEventListener('wheel', disabledScroll, { passive: false });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ isVisible ]);
 
     const interactionOnType = {
@@ -39,7 +41,7 @@ export default function CommonModal() {
             <ModalBox>
                 {
                 (component === 'login' && <LoginForm useToModal={true} />) ||
-                (component === 'cart' && <CartList />) ||
+                (component === 'cart' && <div><CartList useToModal={true} /><CartSummary /></div>) ||
                 (component === 'confirm' && <Confirm />)
                 }
             </ModalBox>
@@ -105,8 +107,27 @@ const ModalContainer = styled.div`
         ${({ $type }) => $type === 'right' && css`
             justify-content: flex-end;
             align-items: stretch;
-            opacity: 1;
-            transform: translateX(100%);
+            
+            & > div {
+                position: relative;
+                max-width: 420px;
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                padding: 20px;
+                background-color: var(--brand-white);
+                pointer-events: all;
+                overflow-y: auto;
+                transform: translateX(30%);
+                transition: transform 0.3s ease-out;
+                transition-delay: 0.18s;
+                & > div:last-of-type {
+                    padding: 24px 0px 0px;
+                    margin: 4px 0px 0px;
+                    border-top: 1px solid var(--grayscale-300);
+                }
+            }
+            & > div { ${({ $delay }) => $delay && css`transform: translateX(0%);`} }
         `}
 
         visibility: ${({ $active }) => $active ? 'visible' : 'hidden'};
@@ -115,4 +136,33 @@ const ModalContainer = styled.div`
         transition-delay: 0.2s !important;
         pointer-events: none;
     }
+`;
+
+export const ModalCloseBtn = styled.button`
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid var(--grayscale-200);
+    outline-color: black;
+    border-radius: 50%;
+    background-color: var(--brand-white);
+    transition: background 0.2s;
+
+    &:hover,
+    &:focus {background-color: var(--grayscale-100);}
+    & > img {
+        width: 24px;
+        height: 24px;
+    }
+`;
+
+export const PlainModalCloseBtn = styled(ModalCloseBtn)`
+    position: static;
+    top: auto;
+    right: auto;
+    border: none;
 `;

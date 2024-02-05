@@ -26,7 +26,7 @@ export const Contents = styled.section`
     width: 100%;
     max-width: 1280px;
     height: auto;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 262px);
     margin: 0px auto;
     padding: 120px 40px 100px;
 

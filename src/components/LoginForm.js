@@ -14,6 +14,7 @@ import closeIcon from '../assets/close.svg'
 import spinnerPulse from '../assets/spinner-pulse.svg'
 import { emailRegex } from './RegisterForm'
 import { useForm } from 'react-hook-form'
+import { ModalCloseBtn } from './CommonModal'
 
 export default function LoginForm({ useToModal }) {
     
@@ -101,27 +102,5 @@ export const FormRegisterLink = styled.p`
         font-size: 15px;
         font-weight: 400;
         color: var(--grayscale-600);
-    }
-`;
-
-const ModalCloseBtn = styled.button`
-    position: absolute;
-    top: -14px;
-    right: -14px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid var(--grayscale-200);
-    outline-color: black;
-    border-radius: 50%;
-    background-color: var(--brand-white);
-    transition: background 0.2s;
-
-    &:hover,
-    &:focus {background-color: var(--grayscale-100);}
-    & > img {
-        width: 24px;
-        height: 24px;
     }
 `;

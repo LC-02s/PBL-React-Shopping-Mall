@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import headerLogo from '../assets/header-logo.svg'
-import cartPlusIcon from '../assets/cart-plus.svg'
+import cartDefaultIcon from '../assets/cart-default.svg'
 import cartCheckIcon from '../assets/cart-check.svg'
 import registerIcon from '../assets/register.svg'
 import loginIcon from '../assets/login.svg'
@@ -14,11 +14,12 @@ import { modalOn } from '../context/actions/modal';
 export default function Header() {
 
     const { isValid } = useSelector(({ user }) => user);
-    const { cart } = useSelector(({ product }) => product);
+    const cartList = useSelector(({ cart }) => cart);
     const headerRef = useRef();
     const [ isScroll, setIsScroll ] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const cartLength = useMemo(() => Object.keys(cartList).length, [cartList]);
 
     useEffect(() => {
         const headerScroll = () => {
@@ -35,12 +36,12 @@ export default function Header() {
                     <Link to='/'><img src={headerLogo} alt='Shop PBL Logo' /></Link>
                 </HeaderLogo>
                 <HeaderBtnWrap>
-                    <CartBtn>
+                    <CartBtn onClick={() => dispatch(modalOn({ component: 'cart' }))}>
                         {
-                        cart && 
-                            <CartLengthBadge>{ cart.length }</CartLengthBadge>
+                        cartLength > 0 && 
+                            <CartLengthBadge>{ cartLength }</CartLengthBadge>
                         }
-                        <img src={true ? cartCheckIcon : cartPlusIcon} alt={true ? 'checked cart icon' : 'empty cart icon'} />
+                        <img src={cartLength > 0 ? cartCheckIcon : cartDefaultIcon} alt={cartLength > 0 ? 'checked cart icon' : 'empty cart icon'} />
                     </CartBtn>
                     {
                     isValid ? 

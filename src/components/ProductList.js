@@ -1,17 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getAllProducts } from '../apis/product';
+import { getAllProducts } from '../apis/product'
 import { SkeletonBackground } from '../styles/styledModules'
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import RatingStar from './RatingOfStars';
-import useFetchData from '../hooks/useFetchData';
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import RatingStar from './RatingOfStars'
+import useFetchData from '../hooks/useFetchData'
+import NotFound from './NotFound'
+import addCartIcon from '../assets/cart-add-000.svg'
+import { addCartItem } from '../context/actions/cart'
 
 export default function ProductList() {
 
     const { categoryToListView } = useSelector(({ product }) => product);
     const [ fetchData, isPending ] = useFetchData(() => getAllProducts({ sort: 'desc' }, categoryToListView), categoryToListView);
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return (
         <React.Fragment>
@@ -22,11 +25,13 @@ export default function ProductList() {
                 </ProductListContiner> :
             fetchData ? 
                 <ProductListContiner>
-                    {fetchData.map(({ id, image, category, title, price, rating }) => (
-                        <ProductItem key={String(id)} onClick={() => navigate(`/detail?product_id=${id}`)}>
+                    {fetchData.map(({ id, image, title, price, rating }) => (
+                        <ProductItem key={String(id)}>
                             <div>
                                 <img src={image} alt={`${title} product`} />
-                                <h3>{ limitCharacter(title, 50) }</h3>
+                                <h3>
+                                    <Link to={`/detail/${id}`}>{ limitCharacter(title, 50) }</Link>
+                                </h3>
                             </div>
                             <div>
                                 <ProductItemPrice>${ price }</ProductItemPrice>
@@ -34,18 +39,20 @@ export default function ProductList() {
                                     <RatingStar persentage={rating.rate * 20} /> 
                                     <p>{ rating.rate } <span>/ { rating.count }</span></p>
                                 </ProductItemRating>
-                                <ProductItemCategory>{ category }</ProductItemCategory>
                             </div>
+                            <ProductItemCartBtn onClick={() => dispatch(addCartItem(id))}>
+                                <img src={addCartIcon} alt='add cart icon' />
+                            </ProductItemCartBtn>
                         </ProductItem>
                     )) }
                 </ProductListContiner> :
-                <p>상품 목록이 존재하지 않습니다</p> 
+                <NotFound content='상품 목록이 존재하지 않습니다' />
             }
         </React.Fragment>
     )
 }
 
-const limitCharacter = (char, limit) => {
+export const limitCharacter = (char, limit) => {
     if (char.length >= limit) {
         return String(char).slice(0, limit) + '...';
     } else return char;
@@ -107,6 +114,7 @@ const ProductListContiner = styled.ul`
 `;
 
 const ProductItem = styled.li`
+    position: relative;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
@@ -118,7 +126,6 @@ const ProductItem = styled.li`
     border-radius: 4px;
     background-color: var(--brand-white);
     transition: border 0.2s, box-shadow 0.3s;
-    cursor: pointer;
 
     &:hover {
         border-color: #414143;
@@ -145,12 +152,19 @@ const ProductItem = styled.li`
         width: 100%;
         height: auto;
         margin: auto 0px;
+    }
+    & h3 > a {
+        display: block;
+        width: 100%;
+        height: auto;
         font-size: 16px;
         font-weight: 500;
         line-height: 1.2;
         color: var(--grayscale-700);
         word-break: keep-all;
     }
+    & h3 > a:hover,
+    & h3 > a:focus {text-decoration: underline;}
 `;
 
 export const ProductItemRating = styled.div`
@@ -175,7 +189,7 @@ export const ProductItemRating = styled.div`
     }
 `;
 
-const ProductItemPrice = styled.p`
+export const ProductItemPrice = styled.p`
     display: block;
     width: 100%;
     height: auto;
@@ -185,7 +199,7 @@ const ProductItemPrice = styled.p`
     color: var(--grayscale-800);
 `;
 
-const ProductItemCategory = styled.p`
+export const ProductItemCategory = styled.p`
     display: block;
     width: 100%;
     height: auto;
@@ -193,4 +207,20 @@ const ProductItemCategory = styled.p`
     font-size: 15px;
     font-weight: 400;
     color: var(--grayscale-500);
+`;
+
+const ProductItemCartBtn = styled.button`
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--grayscale-200);
+    outline-color: black;
+    background-color: var(--brand-white);
+    transition: background 0.2s;
+    &:hover {background-color: var(--grayscale-100);}
 `;

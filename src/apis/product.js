@@ -41,3 +41,15 @@ export const getAllCategories = async () => {
     } 
     catch(err) { return ({ status: false, errCode: err }); }
 }
+
+export const getProductsToCart = async (cartList) => {
+    
+    const cartItemArr = (data) => data
+        .filter(({ id }) => cartList[id] ? true : false);
+
+    try {
+        const { data } = await getProduct.get('', { params: { sort: 'desc' } });
+        return ({ status: true, data: cartItemArr(data) });
+    } 
+    catch(err) { return ({ status: false, errCode: err }); }
+}

@@ -26,6 +26,10 @@ body {
   min-height: 100vh;
   background-color: var(--brand-white);
 }
+body.stopScroll {
+  touch-action: none;
+  overflow: hidden;
+}
 body > article {
   display: block;
   width: 100%;

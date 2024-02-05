@@ -19,7 +19,7 @@ const FooterContainer = styled.footer`
     position: relative;
     background-color: var(--grayscale-600);
     overflow: hidden;
-    padding: 120px 0px 0px;
+    padding: 100px 0px 0px;
 
     &::before{ 
         content:'';

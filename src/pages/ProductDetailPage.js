@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { MainTitle } from './ProductListPage';
+import { useParams } from 'react-router-dom';
+import ProductDetail from '../components/ProductDetail';
 
 export default function ProductDetailPage() {
+
+    const { id } = useParams();
+
     return (
-        <div>ProductDetailPage</div>
+        <React.Fragment>
+            <MainTitle>Product Detail</MainTitle>
+            <ProductDetail productId={id}/>
+        </React.Fragment>
     )
 }

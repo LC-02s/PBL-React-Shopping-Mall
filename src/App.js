@@ -10,6 +10,7 @@ import Header from './components/Header'
 import { Contents } from './styles/styledModules'
 import Footer from './components/Footer'
 import CommonModal from './components/CommonModal'
+import NotFound from "./components/NotFound";
 
 export default function App() {
     return (
@@ -19,8 +20,9 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<ProductListPage />}></Route>
                     <Route path="/register" element={<RegisterPage />}></Route>
-                    <Route path="/detail" element={<ProductDetailPage />}></Route>
+                    <Route path="/detail/:id" element={<ProductDetailPage />}></Route>
                     <Route path="/payment" element={<PaymentPage />}></Route>
+                    <Route path="/*" element={<NotFound />}></Route>
                 </Routes>
                 <CommonModal />
             </Contents>

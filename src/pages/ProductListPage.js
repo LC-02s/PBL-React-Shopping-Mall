@@ -14,7 +14,7 @@ export default function ProductListPage() {
     )
 }
 
-const MainTitle = styled.h2`
+export const MainTitle = styled.h2`
     display: block;
     width: 100%;
     height: auto;
