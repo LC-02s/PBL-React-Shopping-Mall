@@ -14,7 +14,7 @@ import { modalOn } from '../context/actions/modal';
 export default function Header() {
 
     const { isValid } = useSelector(({ user }) => user);
-    const cartList = useSelector(({ cart }) => cart);
+    const cartList = useSelector(({ cart }) => cart.items);
     const headerRef = useRef();
     const [ isScroll, setIsScroll ] = useState(false);
     const navigate = useNavigate();

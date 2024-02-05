@@ -11,15 +11,17 @@ import { limitCharacter } from './ProductList'
 import spinnerBars from '../assets/spinner-bars.svg'
 import { addCartItem, minusCartItem, deleteCartItem } from '../context/actions/cart'
 import emptyCartIcon from '../assets/cart-animated.webp'
+import NotFound from './NotFound'
+import CartSummary from './CartSummary'
 
 
 export default function CartList({ useToModal }) {
     
-    const cartList = useSelector(({ cart }) => cart);
-    const cartLength = useMemo(() => Object.keys(cartList).length, [cartList])
+    const cartList = useSelector(({ cart }) => cart.items);
     const [ fetchData, isPending ] = useFetchData(() => getProductsToCart(cartList), cartList);
+    const cartLength = useMemo(() => Object.keys(cartList).length, [ cartList ]);
     const dispatch = useDispatch();
-    
+
     return (
         <React.Fragment>
             { 
@@ -39,37 +41,40 @@ export default function CartList({ useToModal }) {
                 </CartListEmpty> :
             isPending ? 
                 <CartListSpinner><img src={spinnerBars} alt='loading...' /></CartListSpinner> : 
-            fetchData ? 
-                <CartListContainer>
-                    {
-                    fetchData.map(({ id, image, price, title }) => (
-                        <CartListItem key={id}>
-                            <img src={image} alt={`${title} photoshoot`} />
-                            <div>
+            fetchData.cartItems ? 
+                <React.Fragment>
+                    <CartListContainer>
+                        {
+                        fetchData.cartItems.map(({ id, image, price, title }) => (
+                            <CartListItem key={id}>
+                                <img src={image} alt={`${title} photoshoot`} />
                                 <div>
-                                    <Link to={`/detail/${id}`} onClick={() => dispatch(modalOff())}>
-                                        { limitCharacter(title, 40) }
-                                    </Link>
-                                    <CartListItemPrice>
-                                        <span>${ price }</span>
-                                        <span>x</span>
-                                        <span>{ cartList[id] }</span>
-                                        <span> = </span>
-                                        <span>${ price * cartList[id] }</span>
-                                    </CartListItemPrice>
+                                    <div>
+                                        <Link to={`/detail/${id}`} onClick={() => dispatch(modalOff())}>
+                                            { limitCharacter(title, 40) }
+                                        </Link>
+                                        <CartListItemPrice>
+                                            <span>${ (price * cartList[id]).toFixed(2) }</span>
+                                            <span>(${ price }</span>
+                                            <span>x</span>
+                                            <span>{ cartList[id] })</span>
+                                        </CartListItemPrice>
+                                    </div>
+                                    <div>
+                                        <button onClick={() => dispatch(deleteCartItem(id))}>Remove</button>
+                                        <CartListItemCountBtn>
+                                            <button onClick={() => dispatch(minusCartItem(id))}> - </button>
+                                            <span>{ cartList[id] }</span>
+                                            <button onClick={() => dispatch(addCartItem(id))}> + </button>
+                                        </CartListItemCountBtn>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button onClick={() => dispatch(deleteCartItem(id))}>Remove</button>
-                                    <CartListItemCountBtn>
-                                        <button onClick={() => dispatch(minusCartItem(id))}> - </button>
-                                        <span>{ cartList[id] }</span>
-                                        <button onClick={() => dispatch(addCartItem(id))}> + </button>
-                                    </CartListItemCountBtn>
-                                </div>
-                            </div>
-                        </CartListItem> 
-                    ))}
-                </CartListContainer> : <div>error</div>
+                            </CartListItem> 
+                        ))}
+                    </CartListContainer> 
+                    <CartSummary totalPrice={fetchData.totalPrice} useToModal={useToModal} />
+                </React.Fragment> : 
+                <NotFound content='장바구니 조회에 실패했습니다' />
             }
         </React.Fragment>
     )
@@ -108,6 +113,7 @@ const CartListEmpty = styled.p`
         font-weight: 500;
         color: var(--grayscale-600);
     }
+    & ~ div {display: none!important;}
 `;
 
 const CartListContainer = styled.ul`
@@ -164,9 +170,9 @@ const CartListItem = styled.li`
         display: block;
         width: 100%;
         height: auto;
-        margin: 0px 0px 4px;
+        margin: 0px 0px 6px;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 400;
         color: var(--grayscale-700);
         line-height: 1.2;
         &:hover {text-decoration: underline;}
@@ -178,7 +184,7 @@ const CartListItem = styled.li`
         margin: 8px 0px 0px;
 
         & > button:last-of-type {
-            padding: 4px;
+            padding: 4px 2px;
             font-size: 16px;
             font-weight: 500;
             color: var(--grayscale-600);
@@ -223,11 +229,13 @@ const CartListItemPrice = styled.p`
     align-items: center;
     gap: 4px;
     & > span {
+        display: inline-block;
         font-size: 15px;
         font-weight: 400;
         color: var(--grayscale-500);
     }
-    & > span:last-of-type {
+    & > span:first-of-type {
+        margin-right: 4px;
         font-size: 17px;
         font-weight: 500;
         color: var(--grayscale-700);

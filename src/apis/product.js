@@ -49,7 +49,14 @@ export const getProductsToCart = async (cartList) => {
 
     try {
         const { data } = await getProduct.get('', { params: { sort: 'desc' } });
-        return ({ status: true, data: cartItemArr(data) });
+        const cartItems = cartItemArr(data);
+        const totalPrice = cartItems
+            .reduce((total, { id, price }) => {total += (price * cartList[id]); return total}, 0);
+
+        return ({ 
+            status: true, 
+            data: { cartItems, totalPrice: +totalPrice.toFixed(2) } 
+        });
     } 
     catch(err) { return ({ status: false, errCode: err }); }
 }

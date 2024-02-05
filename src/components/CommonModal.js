@@ -5,7 +5,7 @@ import { modalOff } from '../context/actions/modal';
 import LoginForm from './LoginForm';
 import CartList from './CartList';
 import Confirm from './Confirm';
-import CartSummary from './CartSummary';
+
 
 export default function CommonModal() {
 
@@ -41,7 +41,7 @@ export default function CommonModal() {
             <ModalBox>
                 {
                 (component === 'login' && <LoginForm useToModal={true} />) ||
-                (component === 'cart' && <div><CartList useToModal={true} /><CartSummary /></div>) ||
+                (component === 'cart' && <div><CartList useToModal={true} /></div>) ||
                 (component === 'confirm' && <Confirm />)
                 }
             </ModalBox>
@@ -121,11 +121,8 @@ const ModalContainer = styled.div`
                 transform: translateX(30%);
                 transition: transform 0.3s ease-out;
                 transition-delay: 0.18s;
-                & > div:last-of-type {
-                    padding: 24px 0px 0px;
-                    margin: 4px 0px 0px;
-                    border-top: 1px solid var(--grayscale-300);
-                }
+                
+                @media (max-width: 500px) {min-width: 500px}
             }
             & > div { ${({ $delay }) => $delay && css`transform: translateX(0%);`} }
         `}
