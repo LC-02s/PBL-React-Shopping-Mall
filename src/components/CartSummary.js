@@ -3,11 +3,16 @@ import styled, { css } from 'styled-components';
 import { CommonBtnMD } from '../styles/styledModules';
 import { useDispatch } from 'react-redux';
 import { setTotalPrice } from '../context/actions/cart';
+import { modalOff } from '../context/actions/modal';
+import { useNavigate } from 'react-router-dom';
 
 export default function CartSummary({ totalPrice, useToModal }) {
-
+    
     const dispatch = useDispatch();
     useEffect(() => { dispatch(setTotalPrice(totalPrice)); }, [ totalPrice, dispatch ]);
+
+    const navigate = useNavigate();
+    const handleCheckOutBtnClick = () => {dispatch(modalOff()); navigate('/payment');}
 
     return (
         <CartSummaryContainer $modal={useToModal}>
@@ -15,7 +20,7 @@ export default function CartSummary({ totalPrice, useToModal }) {
                 <span>Estimated total: </span>
                 <span>${ totalPrice ?? 0 }</span>
             </p>
-            <CartSummaryBtn $primary={true}>CHECKOUT</CartSummaryBtn>
+            <CartSummaryBtn onClick={handleCheckOutBtnClick} $primary={true}>CHECKOUT</CartSummaryBtn>
         </CartSummaryContainer>
     )
 }
