@@ -4,17 +4,18 @@ const getProduct = axios.create({
     baseURL: 'https://fakestoreapi.com/products',
 });
 
+
 export const getAllProducts = async (config = {}, category = false) => {
     // config: { sort: String< 'desc' || 'asc' >, limit: Number }
-
+    
     const filteredParams = Object
         .entries(config) // eslint-disable-next-line no-sequences
         .reduce((params, [ param, option ]) => (params[param] = option, params), ({}));
     
-    const categorization = (data, target) => { return data
+    const categorization = (data, targetCategory) => { return data
         .map(({ category }) => category)
         .reduce((arr, category, idx) => {
-            if (category === target) arr.push(data[idx]); return arr;
+            if (category === targetCategory) arr.push(data[idx]); return arr;
         }, ([])) };
 
     try {

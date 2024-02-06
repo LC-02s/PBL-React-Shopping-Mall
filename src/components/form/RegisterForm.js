@@ -238,7 +238,7 @@ export const FormBtn = styled.button`
     &:disabled,
     &:disabled:hover,
     &:disabled:focus {
-        background-color: #A8A8AE;
+        background-color: var(--grayscale-300);
     }
     & > img {
         width: 28px;

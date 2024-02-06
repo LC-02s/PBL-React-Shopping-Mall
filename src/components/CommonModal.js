@@ -122,7 +122,7 @@ const ModalContainer = styled.div`
                 transition: transform 0.3s ease-out;
                 transition-delay: 0.18s;
                 
-                @media (max-width: 500px) {min-width: 500px}
+                @media (max-width: 500px) {min-width: auto;}
             }
             & > div { ${({ $delay }) => $delay && css`transform: translateX(0%);`} }
         `}

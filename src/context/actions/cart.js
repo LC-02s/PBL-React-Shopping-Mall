@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: {},
+    products: {
+        list: [],
+        status: 'pending',
+    },
     total: 0,
 };
 
@@ -19,15 +23,18 @@ const cart = createSlice({
         deleteCartItem: ({ items }, { payload }) => {
             delete items[payload];
         },
-        clearCartItem: ({ items }, _action) => {
+        clearCart: ({ items }, _action) => {
             items = initialState.items;
         },
         setTotalPrice: ({ total }, { payload }) => {
             total = payload ?? 0;
         },
-    }
+    },
+    // extraReducers: (builder) => {
+    //     builder.addCase();
+    // },
 });
 
 export default cart;
 
-export const { addCartItem, minusCartItem, deleteCartItem, clearCartItem, setTotalPrice } = cart.actions;
+export const { addCartItem, minusCartItem, deleteCartItem, clearCart, setTotalPrice } = cart.actions;

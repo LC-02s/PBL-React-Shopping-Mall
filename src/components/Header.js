@@ -23,10 +23,20 @@ export default function Header() {
 
     useEffect(() => {
         const headerScroll = () => {
-            setIsScroll(window.scrollY > headerRef.current.offsetHeight);
+            const scrollCondition = window.scrollY > headerRef.current.offsetHeight;
+            setIsScroll(scrollCondition);
+            if (document.body.offsetWidth <= 500 && scrollCondition) {
+                headerRef.current.style.setProperty('left', `-${window.scrollX}px`);
+            } else {
+                headerRef.current.style.setProperty('left', '');
+            }
         }
         window.addEventListener('scroll', headerScroll);
-        return () => window.removeEventListener('scroll', headerScroll);
+        window.addEventListener('resize', headerScroll);
+        return () => {
+            window.removeEventListener('scroll', headerScroll);
+            window.removeEventListener('resize', headerScroll);
+        }
     }, []);
 
     return (

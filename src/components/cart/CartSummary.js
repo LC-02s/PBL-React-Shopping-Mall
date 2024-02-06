@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components';
 import { CommonBtnMD } from '../component.style';
-import { useDispatch } from 'react-redux';
-import { setTotalPrice } from '../../context/actions/cart';
+import { useDispatch, useSelector } from 'react-redux';
 import { modalOff } from '../../context/actions/modal';
 import { useNavigate } from 'react-router-dom';
 
-export default function CartSummary({ totalPrice, useToModal, useToPage }) {
+export default function CartSummary({ useToModal, useToPage }) {
     
     const dispatch = useDispatch();
-    useEffect(() => { dispatch(setTotalPrice(totalPrice)); }, [ totalPrice, dispatch ]);
+    const { totalPrice } = useSelector(({ cart }) => cart);
 
     const navigate = useNavigate();
     const handleCheckOutBtnClick = () => {dispatch(modalOff()); navigate('/payment');}
