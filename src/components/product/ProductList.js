@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getAllProducts } from '../apis/product'
-import { SkeletonBackground } from '../styles/styledModules'
+import { getAllProducts } from '../../apis/product'
+import { SkeletonBackground } from '../component.style'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import RatingStar from './RatingOfStars'
-import useFetchData from '../hooks/useFetchData'
-import NotFound from './NotFound'
-import addCartIcon from '../assets/cart-add-000.svg'
-import { addCartItem } from '../context/actions/cart'
+import useFetchData from '../../hooks/useFetchData'
+import NotFound from '../NotFound'
+import addCartIcon from '../../assets/cart-add-000.svg'
+import { addCartItem } from '../../context/actions/cart'
 
 export default function ProductList() {
 

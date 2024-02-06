@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components'
 import { modalOff } from '../context/actions/modal';
-import LoginForm from './LoginForm';
-import CartList from './CartList';
+import LoginForm from './form/LoginForm';
+import CartList from './cart/CartList';
 import Confirm from './Confirm';
 
 

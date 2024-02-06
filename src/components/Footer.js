@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CommonWrapper } from '../styles/styledModules';
+import { CommonWrapper } from './component.style'
 import headerLogo from '../assets/header-logo.svg'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
     return (

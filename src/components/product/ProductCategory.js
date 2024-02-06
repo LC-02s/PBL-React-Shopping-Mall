@@ -1,10 +1,10 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { getAllCategories } from '../apis/product';
-import { SkeletonBackground } from '../styles/styledModules'
+import { getAllCategories } from '../../apis/product';
+import { SkeletonBackground } from '../component.style'
 import { useDispatch, useSelector } from 'react-redux';
-import useFetchData from '../hooks/useFetchData';
-import { changeCategory } from '../context/actions/product';
+import useFetchData from '../../hooks/useFetchData';
+import { changeCategory } from '../../context/actions/product';
 
 export default function ProductCategory() {
     

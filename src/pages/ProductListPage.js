@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ProductCategory from '../components/ProductCategory'
-import ProductList from '../components/ProductList'
+import ProductCategory from '../components/product/ProductCategory'
+import ProductList from '../components/product/ProductList'
 
 export default function ProductListPage() {
     return (

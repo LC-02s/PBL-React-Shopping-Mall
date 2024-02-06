@@ -1,6 +1,6 @@
 import React from 'react';
 import { MainTitle } from './ProductListPage';
-import CartList from '../components/CartList'
+import CartList from '../components/cart/CartList'
 import styled from 'styled-components';
 
 export default function PaymentPage() {

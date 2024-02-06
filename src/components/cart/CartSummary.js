@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import styled, { css } from 'styled-components';
-import { CommonBtnMD } from '../styles/styledModules';
+import { CommonBtnMD } from '../component.style';
 import { useDispatch } from 'react-redux';
-import { setTotalPrice } from '../context/actions/cart';
-import { modalOff } from '../context/actions/modal';
+import { setTotalPrice } from '../../context/actions/cart';
+import { modalOff } from '../../context/actions/modal';
 import { useNavigate } from 'react-router-dom';
 
 export default function CartSummary({ totalPrice, useToModal, useToPage }) {

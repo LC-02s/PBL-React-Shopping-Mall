@@ -9,17 +9,18 @@ import {
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { modalOff } from '../context/actions/modal'
-import closeIcon from '../assets/close.svg'
-import spinnerPulse from '../assets/spinner-pulse.svg'
+import { modalOff } from '../../context/actions/modal'
+import closeIcon from '../../assets/close.svg'
+import spinnerPulse from '../../assets/spinner-pulse.svg'
 import { emailRegex } from './RegisterForm'
 import { useForm } from 'react-hook-form'
-import { ModalCloseBtn } from './CommonModal'
+import { ModalCloseBtn } from '../CommonModal'
 
 export default function LoginForm({ useToModal }) {
     
     const { isVisible } = useSelector(({ modal }) => modal);
     const dispatch = useDispatch();
+    // eslint-disable-next-line no-unused-vars
     const { register, formState: { errors }, setError, reset, handleSubmit } = useForm({ mode: 'onSubmit' });
 
     const [ loadingSubmit, setLoadingSubmit ] = useState(false);

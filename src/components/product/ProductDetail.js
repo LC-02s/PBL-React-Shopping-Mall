@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getProductDataById } from '../apis/product';
-import useFetchData from '../hooks/useFetchData';
-import NotFound from './NotFound';
-import { ProductItemPrice, ProductItemCategory, ProductItemRating } from './ProductList'; 
+import { getProductDataById } from '../../apis/product';
+import useFetchData from '../../hooks/useFetchData';
+import NotFound from '../NotFound';
+import { ProductItemPrice, ProductItemCategory, ProductItemRating } from '../product/ProductList'; 
 import RatingStar from './RatingOfStars';
-import addCartIcon from '../assets/cart-add-fff.svg'
+import addCartIcon from '../../assets/cart-add-fff.svg'
 import { useDispatch } from 'react-redux';
-import { addCartItem } from '../context/actions/cart';
-import { SkeletonBackground, CommonBtnMD } from '../styles/styledModules';
+import { addCartItem } from '../../context/actions/cart';
+import { SkeletonBackground, CommonBtnMD } from '../component.style';
 import { useNavigate } from 'react-router-dom';
 
 

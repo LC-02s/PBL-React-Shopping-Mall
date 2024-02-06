@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled, { css } from 'styled-components'
-import spinnerPulse from '../assets/spinner-pulse.svg'
-import infoIcon from '../assets/info.svg'
-import { signUpEmail } from '../auth'
+import spinnerPulse from '../../assets/spinner-pulse.svg'
+import infoIcon from '../../assets/info.svg'
+import { signUpEmail } from '../../auth'
 
 
 export const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;

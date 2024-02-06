@@ -1,7 +1,7 @@
 import React from 'react';
 import { MainTitle } from './ProductListPage';
 import { useParams } from 'react-router-dom';
-import ProductDetail from '../components/ProductDetail';
+import ProductDetail from '../components/product/ProductDetail';
 
 export default function ProductDetailPage() {
 
