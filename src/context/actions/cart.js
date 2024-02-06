@@ -23,7 +23,6 @@ const cart = createSlice({
             items = initialState.items;
         },
         setTotalPrice: ({ total }, { payload }) => {
-            console.log(payload);
             total = payload ?? 0;
         },
     }

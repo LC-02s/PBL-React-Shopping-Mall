@@ -157,9 +157,13 @@ const ProductDetailContainer = styled.div`
     border-radius: 4px;
     background-color: var(--brand-white);
 
-    & > ${ProductDetailImgWrap} {width: 36%;}
-    & > ${ProductDetailContentWrap} {width: calc(64% - 24px);}
-
+    & > ${ProductDetailImgWrap} {width: 280px;}
+    & > ${ProductDetailContentWrap} {width: calc(100% - 320px);}
+    
+    @media (max-width: 1024px) {
+        & > ${ProductDetailImgWrap} {width: 32%;}
+        & > ${ProductDetailContentWrap} {width: calc(68% - 24px);}
+    }
     @media (max-width: 768px) {
         flex-flow: column nowrap;
         align-items: center;

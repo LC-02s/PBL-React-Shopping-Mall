@@ -6,7 +6,7 @@ import { setTotalPrice } from '../context/actions/cart';
 import { modalOff } from '../context/actions/modal';
 import { useNavigate } from 'react-router-dom';
 
-export default function CartSummary({ totalPrice, useToModal }) {
+export default function CartSummary({ totalPrice, useToModal, useToPage }) {
     
     const dispatch = useDispatch();
     useEffect(() => { dispatch(setTotalPrice(totalPrice)); }, [ totalPrice, dispatch ]);
@@ -20,7 +20,10 @@ export default function CartSummary({ totalPrice, useToModal }) {
                 <span>Estimated total: </span>
                 <span>${ totalPrice ?? 0 }</span>
             </p>
-            <CartSummaryBtn onClick={handleCheckOutBtnClick} $primary={true}>CHECKOUT</CartSummaryBtn>
+            {
+            !useToPage &&
+                <CartSummaryBtn onClick={handleCheckOutBtnClick} $primary={true}>CHECKOUT</CartSummaryBtn>
+            }
         </CartSummaryContainer>
     )
 }
@@ -35,6 +38,9 @@ const CartSummaryContainer = styled.div`
         margin: 4px 0px 0px;
         border-top: 1px solid var(--grayscale-300);
     `}
+    padding: 24px 0px 0px;
+    margin: 4px 0px 0px;
+    border-top: 1px solid var(--grayscale-300);
 
     & > p {
         display: flex;

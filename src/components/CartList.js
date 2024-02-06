@@ -15,7 +15,7 @@ import NotFound from './NotFound'
 import CartSummary from './CartSummary'
 
 
-export default function CartList({ useToModal }) {
+export default function CartList({ useToModal, useToPage }) {
     
     const cartList = useSelector(({ cart }) => cart.items);
     const [ fetchData, isPending ] = useFetchData(() => getProductsToCart(cartList), cartList);
@@ -72,7 +72,7 @@ export default function CartList({ useToModal }) {
                             </CartListItem> 
                         ))}
                     </CartListContainer> 
-                    <CartSummary totalPrice={fetchData.totalPrice} useToModal={useToModal} />
+                    <CartSummary totalPrice={fetchData.totalPrice} useToModal={useToModal} useToPage={useToPage} />
                 </React.Fragment> : 
                 <NotFound content='장바구니 조회에 실패했습니다' />
             }
@@ -101,6 +101,7 @@ const CartListEmpty = styled.p`
     & > img {
         display: block;
         width: 48%;
+        max-width: 180px;
         height: auto;
         margin: 0px auto 14px;
     }
@@ -201,6 +202,7 @@ const CartListItemCountBtn = styled.p`
     align-items: center;
     border: 1px solid var(--grayscale-200);
     border-radius: 4px;
+    background-color: var(--brand-white);
     & > button,
     & > span {
         display: inline-flex;
