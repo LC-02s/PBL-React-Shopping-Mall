@@ -53,9 +53,8 @@ export default function RegisterForm() {
                         placeholder='이메일을 입력해주세요'
                         autoComplete='off'
                         {...register('email', { 
-                            requied: '이메일을 입력해주세요', 
+                            required: '이메일을 입력해주세요', 
                             pattern: { value: emailRegex, message: '유효하지 않은 이메일입니다', }, 
-                            validate: { empty: (value) => value ? undefined : '이메일을 입력해주세요' },
                         })}
                     />
                     { errors.email && 
@@ -70,13 +69,12 @@ export default function RegisterForm() {
                         placeholder='이름을 입력해주세요'
                         autoComplete='off'
                         {...register('name', { 
-                            requied: '이름을 입력해주세요', 
+                            required: '이름을 입력해주세요', 
                             minLength: { value: 2, message: '이름은 최소 2글자 이상 입력해야합니다', }, 
                             maxLength: { value: 20, message: '이름은 20글자 이상 입력할 수 없습니다', }, 
                             validate: {
                                 match1: (value) => !(/^[ㄱ-ㅎㅏ-ㅣ]+$/.test(value)) || '제대로 입력해주세요',
                                 match2: (value) => !nameRegex.test(value) || '특수문자는 이름에 포함할 수 없습니다',
-                                empty: (value) => value ? undefined : '이름을 입력해주세요',
                             }
                         })}
                     />
@@ -92,12 +90,9 @@ export default function RegisterForm() {
                         placeholder='사용할 비밀번호를 입력해주세요' 
                         autoComplete='off'
                         {...register('password', { 
-                            requied: '사용할 비밀번호를 입력해주세요', 
+                            required: '사용할 비밀번호를 입력해주세요', 
                             minLength: { value: 6, message: '비밀번호는 6글자 이상의 문자로 구성되어야 합니다', },
-                            validate: { 
-                                empty: (value) => value ? undefined : '사용할 비밀번호를 입력해주세요',
-                                validation: (value) => passwordTest(value)?.message 
-                            }
+                            validate: { validation: (value) => passwordTest(value)?.message }
                         })}
                     />
                     { errors.password && 
@@ -126,11 +121,8 @@ export default function RegisterForm() {
                         placeholder='입력한 비밀번호를 한번 더 입력해주세요'
                         autoComplete='off'
                         {...register('confirmPassword', { 
-                            requied: '비밀번호를 확인해주세요', 
-                            validate: { 
-                                match: (value) => value && pwInputEl !== value ? '비밀번호가 일치하지 않습니다' : undefined, 
-                                empty: (value) => value ? undefined : '비밀번호를 확인해주세요',
-                            }
+                            required: '비밀번호를 확인해주세요', 
+                            validate: { match: (value) => value && pwInputEl !== value ? '비밀번호가 일치하지 않습니다' : undefined, }
                         })}
                     />
                     { 

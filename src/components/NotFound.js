@@ -9,6 +9,7 @@ export default function NotFound({ content }) {
     )
 }
 
+// styled components
 export const NotFoundContainer = styled.div`
     display: block;
     width: 100%;

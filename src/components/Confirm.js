@@ -29,6 +29,7 @@ export default function Confirm({ confirmType, title, content }) {
     )
 }
 
+// styled components
 const ConfirmContainer = styled.h2`
 
 `;

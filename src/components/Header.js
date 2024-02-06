@@ -69,6 +69,7 @@ export default function Header() {
     )
 }
 
+// styled components
 const HeaderContainer = styled.header`
     position: ${({ $isScroll }) =>  $isScroll ? 'fixed' : 'absolute'};
     z-index: 9999;

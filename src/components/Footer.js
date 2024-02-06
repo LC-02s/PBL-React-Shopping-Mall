@@ -15,6 +15,7 @@ export default function Footer() {
     )
 }
 
+// styled components
 const FooterContainer = styled.footer`
     position: relative;
     background-color: var(--grayscale-600);

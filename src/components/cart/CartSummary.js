@@ -28,6 +28,7 @@ export default function CartSummary({ totalPrice, useToModal, useToPage }) {
     )
 }
 
+// styled components
 const CartSummaryContainer = styled.div`
     display: block;
     width: 100%;
