@@ -1,6 +1,6 @@
 import React from 'react'
-import { FormEl } from './form/RegisterForm'
-import { CommonBtnMD } from './component.style'
+import { FormEl } from './form/Form.style'
+import { CommonBtnMD } from './Common.style'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux';
 import { modalOff } from '../context/actions/modal';

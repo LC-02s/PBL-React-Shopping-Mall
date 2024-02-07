@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CommonWrapper } from './component.style'
+import { CommonWrapper } from './Common.style'
 import headerLogo from '../assets/header-logo.svg'
 import { Link } from 'react-router-dom'
 

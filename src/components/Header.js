@@ -6,7 +6,7 @@ import registerIcon from '../assets/register.svg'
 import loginIcon from '../assets/login.svg'
 import logoutIcon from '../assets/logout.svg'
 import styled, { css } from 'styled-components'
-import { CommonWrapper, CommonBtnMD } from './component.style'
+import { CommonWrapper, CommonBtnMD } from './Common.style'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalOn } from '../context/actions/modal';

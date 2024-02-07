@@ -7,7 +7,7 @@ import PaymentPage from "./pages/PaymentPage";
 import { Provider } from "react-redux";
 import store from "./context/store";
 import Header from './components/Header'
-import { Contents } from './components/component.style'
+import { Contents } from './components/Common.style'
 import Footer from './components/Footer'
 import CommonModal from './components/CommonModal'
 import NotFound from "./components/NotFound";

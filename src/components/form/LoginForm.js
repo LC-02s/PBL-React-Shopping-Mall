@@ -4,10 +4,10 @@ import {
     FormTitle,
     FormFieldset,
     FormBtn,
-    FormErrorMessage
-} from './RegisterForm'
+    FormErrorMessage,
+    FormRegisterLink
+} from './Form.style'
 import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalOff } from '../../context/actions/modal'
 import closeIcon from '../../assets/close.svg'
@@ -88,22 +88,3 @@ export default function LoginForm({ useToModal }) {
         </FormEl>
     )
 }
-
-// styled components
-export const FormRegisterLink = styled.p`
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
-    padding: 28px 42px;
-
-    & > a {
-        display: inline-block;
-        padding: 4px;
-        font-size: 15px;
-        font-weight: 400;
-        color: var(--grayscale-600);
-    }
-`;

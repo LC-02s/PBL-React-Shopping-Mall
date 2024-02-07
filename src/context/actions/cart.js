@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: {},
+    length: 0,
     products: {
         list: [],
-        status: 'pending',
+        total: 0,
     },
-    total: 0,
 };
 
 const cart = createSlice({
@@ -30,9 +30,6 @@ const cart = createSlice({
             total = payload ?? 0;
         },
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase();
-    // },
 });
 
 export default cart;
