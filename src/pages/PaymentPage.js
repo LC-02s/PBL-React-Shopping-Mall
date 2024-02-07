@@ -1,6 +1,7 @@
 import React from 'react';
 import { MainTitle } from './ProductListPage';
 import CartList from '../components/cart/CartList'
+import CartSummary from '../components/cart/CartSummary'
 import styled from 'styled-components';
 
 export default function PaymentPage() {
@@ -10,6 +11,7 @@ export default function PaymentPage() {
             <MainTitle>Payment</MainTitle>
             <CartListWrapper>
                 <CartList useToPage={true} />
+                <CartSummary useToPage={true} />
             </CartListWrapper>
         </React.Fragment>
     )

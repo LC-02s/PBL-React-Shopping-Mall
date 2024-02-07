@@ -5,7 +5,7 @@ import { modalOff } from '../context/actions/modal';
 import LoginForm from './form/LoginForm';
 import CartList from './cart/CartList';
 import Confirm from './Confirm';
-
+import CartSummary from './cart/CartSummary'
 
 export default function CommonModal() {
 
@@ -41,7 +41,7 @@ export default function CommonModal() {
             <ModalBox>
                 {
                 (component === 'login' && <LoginForm useToModal={true} />) ||
-                (component === 'cart' && <div><CartList useToModal={true} /></div>) ||
+                (component === 'cart' && <div><CartList useToModal={true} /><CartSummary useToModal={true} /></div>) ||
                 (component === 'confirm' && <Confirm />)
                 }
             </ModalBox>

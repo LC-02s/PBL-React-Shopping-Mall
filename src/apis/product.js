@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getProduct = axios.create({
+export const getProduct = axios.create({
     baseURL: 'https://fakestoreapi.com/products',
 });
 
@@ -43,20 +43,25 @@ export const getAllCategories = async () => {
     catch(err) { return ({ status: false, errCode: err }); }
 }
 
-export const getProductsToCart = async (cartList) => {
-    
-    const cartItemArr = (data) => data
-        .filter(({ id }) => cartList[id] ? true : false);
+export const cartItemFilter = (data, cartItems) => data
+    .filter(({ id }) => cartItems[id] ? true : false)
+    .sort((a, b) => cartItems[a.id].index - cartItems[b.id].index)
+    .map(({ id, image, price, title }) => ({ id, image, price, title, length: cartItems[id].length }));
 
+export const calcTotalPrice = (products) => Number(
+    products
+        .reduce((total, { price, length }) => (total += (price * length)), 0)
+        .toFixed(2)
+);
+
+export const getProductsToCart = async (cartItems) => {
     try {
         const { data } = await getProduct.get('', { params: { sort: 'desc' } });
-        const cartItems = cartItemArr(data);
-        const totalPrice = cartItems
-            .reduce((total, { id, price }) => {total += (price * cartList[id]); return total}, 0);
+        const products = cartItemFilter(data, cartItems);
 
         return ({ 
             status: true, 
-            data: { cartItems, totalPrice: +totalPrice.toFixed(2) } 
+            data: { products, totalPrice: calcTotalPrice(products) } 
         });
     } 
     catch(err) { return ({ status: false, errCode: err }); }

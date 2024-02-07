@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import headerLogo from '../assets/header-logo.svg'
 import cartDefaultIcon from '../assets/cart-default.svg'
 import cartCheckIcon from '../assets/cart-check.svg'
@@ -10,16 +10,17 @@ import { CommonWrapper, CommonBtnMD } from './Common.style'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalOn } from '../context/actions/modal';
+import { getProductsToCart } from '../context/actions/cart'
 
 export default function Header() {
 
-    const { isValid } = useSelector(({ user }) => user);
-    const cartList = useSelector(({ cart }) => cart.items);
-    const headerRef = useRef();
+    const itemLength = useSelector(({ cart }) => cart.itemLength);
+    
+    const isValid = false;
     const [ isScroll, setIsScroll ] = useState(false);
+    const headerRef = useRef();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const cartLength = useMemo(() => Object.keys(cartList).length, [cartList]);
 
     useEffect(() => {
         const headerScroll = () => {
@@ -46,12 +47,12 @@ export default function Header() {
                     <Link to='/'><img src={headerLogo} alt='Shop PBL Logo' /></Link>
                 </HeaderLogo>
                 <HeaderBtnWrap>
-                    <CartBtn onClick={() => dispatch(modalOn({ component: 'cart' }))}>
+                    <CartBtn onClick={() => {dispatch(modalOn({ component: 'cart' })); dispatch(getProductsToCart());}}>
                         {
-                        cartLength > 0 && 
-                            <CartLengthBadge>{ cartLength }</CartLengthBadge>
+                        itemLength > 0 && 
+                            <CartLengthBadge>{ itemLength }</CartLengthBadge>
                         }
-                        <img src={cartLength > 0 ? cartCheckIcon : cartDefaultIcon} alt={cartLength > 0 ? 'checked cart icon' : 'empty cart icon'} />
+                        <img src={itemLength > 0 ? cartCheckIcon : cartDefaultIcon} alt={itemLength > 0 ? 'checked cart icon' : 'empty cart icon'} />
                     </CartBtn>
                     {
                     isValid ? 
