@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { CommonBtnMD } from "../Common.style"
+import { CommonBtnMD, SkeletonBackground } from "../Common.style"
 
 // List
 export const CartListSpinner = styled.div`
@@ -206,5 +206,10 @@ export const CartSummaryBtn = styled(CommonBtnMD)`
     width: 100%;
     padding: 12px;
     font-size: 18px;
+`;
+
+export const CartSummarySkeleton = styled(SkeletonBackground)`
+    width: 100px;
+    height: 32px;
 `;
 // Summary

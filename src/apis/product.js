@@ -48,6 +48,15 @@ export const cartItemFilter = (data, cartItems) => data
     .sort((a, b) => cartItems[a.id].index - cartItems[b.id].index)
     .map(({ id, image, price, title }) => ({ id, image, price, title, length: cartItems[id].length }));
 
+export const sortCartItem = (cartItems) => Object
+    .entries(cartItems)
+    .sort((a, b) => a[1].index - b[1].index)
+    .reduce((obj, [ id, { length } ], idx) => {
+        obj[id] = { index: idx, length };
+        return obj;
+    }, {});
+    
+
 export const calcTotalPrice = (products) => Number(
     products
         .reduce((total, { price, length }) => (total += (price * length)), 0)

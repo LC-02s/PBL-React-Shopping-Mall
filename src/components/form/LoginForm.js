@@ -7,35 +7,47 @@ import {
     FormErrorMessage,
     FormRegisterLink
 } from './Form.style'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { modalOff } from '../../context/actions/modal'
 import closeIcon from '../../assets/close.svg'
 import spinnerPulse from '../../assets/spinner-pulse.svg'
-import { emailRegex } from './RegisterForm'
+import { emailRegex, passwordTest } from './RegisterForm'
 import { useForm } from 'react-hook-form'
 import { ModalCloseBtn } from '../CommonModal'
+import { signInEmail } from '../../auth'
+import { setUserData } from '../../context/actions/user'
 
 export default function LoginForm({ useToModal }) {
     
     const { isVisible } = useSelector(({ modal }) => modal);
     const dispatch = useDispatch();
-    // eslint-disable-next-line no-unused-vars
     const { register, formState: { errors }, setError, reset, handleSubmit } = useForm({ mode: 'onSubmit' });
     const { pathname } = useLocation();
-    console.log(pathname)
+    const navigate = useNavigate();
 
     const [ loadingSubmit, setLoadingSubmit ] = useState(false);
 
     useEffect(() => { if (!isVisible) reset(); }, [isVisible, reset]);
     
-
     const handleSubmitEvent = async ({ email, password }, e) => {
+        e.preventDefault();
+
         // 유효성 검사 진행 후 실행됨
         setLoadingSubmit(true);
-        // const result = await signUpEmail(email, name, password);
-        // if (!result) setError('email', { type: 'alreadyUsedEmail', message: '이미 사용 중인 이메일 입니다' });
+
+        const result = await signInEmail(email, password);
+        if (!result.status && result.errCode === 'invaild-email') setError('email', { 
+            type: 'alreadyUsedEmail', message: '유효하지 않은 이메일 입니다' });
+
         setLoadingSubmit(false);
+        
+        if (result.status) {
+            const {uid, displayName, email, photoURL, accessToken } = result.userData
+            dispatch(modalOff());
+            dispatch(setUserData({ uid, displayName, email, photoURL, accessToken }));
+            navigate(pathname !== '/register' ? `${pathname}` : '/');
+        }
     }
 
     return (
@@ -72,7 +84,8 @@ export default function LoginForm({ useToModal }) {
                     autoComplete='off' 
                     {...register('password', { 
                         required: '비밀번호를 입력해주세요', 
-                        // validate: { empty: (value) => value ? undefined : '비밀번호를 입력해주세요' },
+                        minLength: { value: 6, message: '비밀번호가 일치하지 않습니다', },
+                        validate: { validation: (value) => passwordTest(value) ? '비밀번호가 일치하지 않습니다' : undefined }
                     })}
                 />
                 { errors.password && 

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import { set, ref } from 'firebase/database'
 import app, { db } from './firebase'
 import md5 from 'md5';
@@ -20,10 +20,50 @@ export async function signUpEmail(email, name, password) {
             avatarImage: createdUser.user.photoURL,
         });
         // 회원가입 성공
-        return true;
-    } catch(err) {
-        // 이미 존재하는 이메일인 경우 실패
-        if (err?.toString().includes('email-already-in-use')) return false;
+        console.log(createdUser);
+        return { status: true, userData: createdUser, md5: emailToMD5 };
+    } 
+    catch(err) {
+        console.error(err);
+        let errCode = err?.toString();
+        // 이미 존재하는 이메일인 경우
+        if (errCode.includes('email-already-in-use')) errCode = 'email-already-in-use';
+        // 유효하지 않은 이메일인 경우
+        else if (errCode.includes('invaild-email')) errCode = 'invaild-email';
+        // 회원가입 실패
+        return { status: false, errCode };
     }
 }
 
+export async function signInEmail(email, password) {
+    try {
+        const loginUser = await signInWithEmailAndPassword(auth, email, password);
+        console.log(loginUser);
+        return { status: true, userData: loginUser };
+    } 
+    catch(err) {
+        console.error(err);
+        let errCode = err?.toString();
+        // 유효하지 않은 이메일인 경우
+        if (errCode.includes('invaild-email')) errCode = 'invaild-email';
+        // 패스워드가 누락된 경우 (UI 에러)
+        else if (errCode.includes('auth/missing-email')) errCode = 'missing-email';
+        // 로그인 실패
+        return { status: false, errCode };
+    }
+}
+
+export async function signOutUser() {
+    try {
+        await signOut(auth);
+        return { status: true, userData: null };
+    }
+    catch(err) {
+        console.error(err);
+        return { status: false, errCode: err };
+    }
+}
+
+export async function changeUserState(callback) {
+    return onAuthStateChanged(auth, callback);
+}

@@ -14,18 +14,19 @@ import {
 import spinnerPulse from '../../assets/spinner-pulse.svg'
 import infoIcon from '../../assets/info.svg'
 import { signUpEmail } from '../../auth'
+import { useNavigate } from 'react-router-dom'
 
 
 export const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-const nameRegex = /[^ㄱ-ㅎㅏ-ㅣ\uAC00-\uD7A3a-z0-9]/i;
-const pwRegex = { 
+export const nameRegex = /[^ㄱ-ㅎㅏ-ㅣ\uAC00-\uD7A3a-z0-9]/i;
+export const pwRegex = { 
     lowerCase: { type: false, regex: /[a-z]+/, message: '비밀번호는 최소 1글자 이상의 소문자를 포함하여야 합니다' }, 
     upperCase: { type: false, regex: /[A-Z]+/, message: '비밀번호는 최소 1글자 이상의 대문자를 포함하여야 합니다' }, 
     number: { type: false, regex: /\d{2,}/, message: '비밀번호는 최소 2글자 이상의 연속된 숫자를 포함하여야 합니다' }, 
     symbol: { type: false, regex: /[!@#$%^&*]+/, message: '비밀번호는 최소 1글자 이상의 특수문자를 포함하여야 합니다' }, 
     space: { type: true, regex: /\s+/, message: '비밀번호는 공백문자를 포함할 수 없습니다' }, 
 };
-const passwordTest = (value) => {
+export const passwordTest = (value) => {
     for (const type in pwRegex) {
         if (pwRegex[type].regex.test(value) === pwRegex[type].type) return pwRegex[type];
     }
@@ -36,19 +37,24 @@ export default function RegisterForm() {
     const { register, watch, formState: { errors }, setError, handleSubmit } = useForm({ mode: 'onSubmit' });
     const pwInputEl = watch('password');
     const confirmInputEl = watch('confirmPassword');
-    // error : too-many re-render
-    // (function(pw, cpw) {
-    //     if (pw && cpw && pw === cpw) clearErrors('confirmPassword');
-    // })(pwInputEl, confirmInputEl);
+    const navigate = useNavigate();
 
     const [ loadingSubmit, setLoadingSubmit ] = useState(false);
 
     const handleSubmitEvent = async ({ email, name, password }, e) => {
         // 유효성 검사 진행 후 실행됨
         setLoadingSubmit(true);
+
         const result = await signUpEmail(email, name, password);
-        if (!result) setError('email', { type: 'alreadyUsedEmail', message: '이미 사용 중인 이메일 입니다' });
+
+        if (!result.status && result.errCode === 'email-already-in-use') setError('email', { 
+            type: 'alreadyUsedEmail', message: '이미 사용 중인 이메일 입니다' });
+        else if (!result.status && result.errCode === 'invaild-email') setError('email', { 
+            type: 'invaildEmail', message: '유효하지 않은 이메일 입니다' });
+
         setLoadingSubmit(false);
+
+        if (result.status) { navigate('/'); }
     }
 
     return (

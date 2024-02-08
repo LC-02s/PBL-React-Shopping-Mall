@@ -1,5 +1,5 @@
 import React from 'react'
-import { CartSummaryContainer, CartSummaryBtn } from './Cart.style'
+import { CartSummaryContainer, CartSummaryBtn, CartSummarySkeleton } from './Cart.style'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalOff } from '../../context/actions/modal'
 import { useNavigate } from 'react-router-dom'
@@ -17,7 +17,11 @@ export default function CartSummary({ useToModal, useToPage }) {
         <CartSummaryContainer $modal={useToModal}>
             <p>
                 <span>Estimated total: </span>
-                <span>${ products.totalPrice ?? 0 }</span>
+                {
+                products.status === 'pending' ?
+                    <CartSummarySkeleton as='span'></CartSummarySkeleton> :
+                    <span>${ products.totalPrice ?? 0 }</span>
+                }
             </p>
             {
             !useToPage &&

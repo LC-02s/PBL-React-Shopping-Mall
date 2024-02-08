@@ -22,8 +22,9 @@ import {
 
 export default function CartList({ useToModal }) {
     
-    const { itemLength, products } = useSelector(({ cart }) => cart);
+    const { items, itemLength, products, totalPrice } = useSelector(({ cart }) => cart);
     const dispatch = useDispatch();
+    console.log(items, itemLength, products, totalPrice)
 
     return (
         <React.Fragment>
@@ -37,7 +38,7 @@ export default function CartList({ useToModal }) {
                 </CartListTitleWrap> 
             }
             {
-            itemLength === 0 ?
+            itemLength !== 0 ?
                 <CartListEmpty>
                     <img src={emptyCartIcon} alt='empty cart icon' />
                     <span>Your Cart is Empty!!</span>

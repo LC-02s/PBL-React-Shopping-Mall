@@ -11,12 +11,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { modalOn } from '../context/actions/modal';
 import { getProductsToCart } from '../context/actions/cart'
+import { signOutUser } from '../auth'
 
 export default function Header() {
 
     const itemLength = useSelector(({ cart }) => cart.itemLength);
-    
-    const isValid = false;
+    const isValid = useSelector(({ user }) => user.isValid);
+
     const [ isScroll, setIsScroll ] = useState(false);
     const headerRef = useRef();
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ export default function Header() {
                     isValid ? 
                         <React.Fragment>
                             {/* profile */}
-                            <CommonBtnMD $iconBtn={true}>
+                            <CommonBtnMD $iconBtn={true} onClick={() => signOutUser()}>
                                 <img src={logoutIcon} alt='logout icon' />
                                 <span>로그아웃</span>
                             </CommonBtnMD>
