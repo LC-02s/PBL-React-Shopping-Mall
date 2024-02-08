@@ -29,7 +29,7 @@ const cart = createSlice({
             const { items, itemLength } = state;
             state.items[payload] = {
                 length: items[payload]?.length + 1 || 1,
-                index: itemLength,
+                index: items[payload]?.index ?? itemLength,
             }
             state.itemLength = Object.keys(items).length;
         },
@@ -52,9 +52,10 @@ const cart = createSlice({
             state.totalPrice = calcTotalPrice(state.products.data);
         },
         removeCartItem: (state, { payload }) => {
-            const { items, products } = state;
+            const { products } = state;
             delete state.items[payload.id];
-            state.products.data = cartItemFilter(products.data, items);
+            state.items = sortCartItem(state.items);
+            state.products.data = cartItemFilter(products.data, state.items);
             state.itemLength -= 1;
             state.totalPrice = calcTotalPrice(state.products.data);
         },
