@@ -8,7 +8,7 @@ import { getProductsToCart } from '../../context/actions/cart'
 export default function CartSummary({ useToModal, useToPage }) {
     
     const dispatch = useDispatch();
-    const { products } = useSelector(({ cart }) => cart);
+    const { products, totalPrice } = useSelector(({ cart }) => cart);
 
     const navigate = useNavigate();
     const handleCheckOutBtnClick = () => {dispatch(modalOff()); dispatch(getProductsToCart()); navigate('/payment');}
@@ -20,7 +20,7 @@ export default function CartSummary({ useToModal, useToPage }) {
                 {
                 products.status === 'pending' ?
                     <CartSummarySkeleton as='span'></CartSummarySkeleton> :
-                    <span>${ products.totalPrice ?? 0 }</span>
+                    <span>${ totalPrice ?? 0 }</span>
                 }
             </p>
             {

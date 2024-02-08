@@ -55,13 +55,9 @@ export const sortCartItem = (cartItems) => Object
         obj[id] = { index: idx, length };
         return obj;
     }, {});
-    
 
-export const calcTotalPrice = (products) => Number(
-    products
-        .reduce((total, { price, length }) => (total += (price * length)), 0)
-        .toFixed(2)
-);
+export const calcTotalPrice = (data) => data
+    .reduce((total, { price, length }) => (total += (price * length)), 0).toFixed(2);
 
 export const getProductsToCart = async (cartItems) => {
     try {

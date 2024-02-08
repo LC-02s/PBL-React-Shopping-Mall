@@ -15,17 +15,17 @@ const user = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUserData: ({ isValid, currentUser }, { payload }) => {
-            isValid = true;
-            currentUser.uid = payload.uid;
-            currentUser.accessToken = payload.accessToken;
-            currentUser.photoURL = payload.photoURL;
-            currentUser.displayName = payload.displayName;
-            currentUser.email = payload.email;
+        setUserData: (state, { payload }) => {
+            state.isValid = true;
+            state.currentUser.uid = payload.uid;
+            state.currentUser.accessToken = payload.accessToken;
+            state.currentUser.photoURL = payload.photoURL;
+            state.currentUser.displayName = payload.displayName;
+            state.currentUser.email = payload.email;
         },
-        clearUserData: ({ isValid, currentUser }, _action) => {
-            isValid = false;
-            currentUser = initialState.currentUser;
+        clearUserData: (state, _action) => {
+            state.isValid = false;
+            state.currentUser = initialState.currentUser;
         },
     }
 });
