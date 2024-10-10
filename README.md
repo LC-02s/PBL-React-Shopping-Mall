@@ -2,10 +2,14 @@
 
 - **topic** : Shopping Mall App with React, Redux, Firebase
 - **author** : @ChanLee_KR
-- **detail** : [document shortcut](https://www.notion.so/lc02s/06-90d835f163e84f38a8d14e9af1d553b5?pvs=4)
+- **detail** : [document](https://www.notion.so/lc02s/06-90d835f163e84f38a8d14e9af1d553b5?pvs=4)
 
-![example image 1]()
-![example image 2]()
+![example image 1](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-1.png?raw=true)
+![example image 2](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-2.png?raw=true)
+![example image 3](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-3.png?raw=true)
+![example image 4](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-4.png?raw=true)
+![example image 5](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-5.png?raw=true)
+![example image 5](https://github.com/LC-02s/PBL-Shopping-Mall/blob/main/public/example-6.png?raw=true)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
